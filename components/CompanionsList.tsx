@@ -18,6 +18,20 @@ interface CompanionsListProps {
     classNames?: string;
 }
 
+function shortenText(text: string, maxLength: number): string {
+    if (!text) return "";
+    if (text.length <= maxLength) return text;
+
+    let shortened = text.slice(0, maxLength);
+
+    const lastSpaceIndex = shortened.lastIndexOf(" ");
+    if (lastSpaceIndex > 0) {
+        shortened = shortened.slice(0, lastSpaceIndex);
+    }
+
+    return shortened + "...";
+}
+
 const CompanionsList = ({ title, companions, classNames }: CompanionsListProps) => {
     return (
         <article className={cn('companion-list', classNames)}>
@@ -45,12 +59,37 @@ const CompanionsList = ({ title, companions, classNames }: CompanionsListProps) 
                                                 height={35} />
                                         </div>
                                         <div className="flex flex-col gap-2">
-                                            <p className="font-bold text-2xl">
+                                            <p className="font-bold text-2xl sm:hidden">
+                                                {name.split(" ")[0]}
+                                            </p>
+                                            <p className="font-bold text-2xl hidden sm:block">
                                                 {name}
                                             </p>
-                                            <p className="text-lg">
-                                                {topic.split(" ").slice(0, 6).join(" ") + (topic.split(" ").length > 6 ? "..." : "")}
+
+                                            {/* Mobile */}
+                                            <p className="text-lg sm:hidden">
                                             </p>
+
+                                            {/* Big Mobile / Small Tablet */}
+                                            <p className="text-lg hidden sm:block md:hidden">
+                                                {shortenText(topic, 30)}
+                                            </p>
+
+                                            {/* Tablet */}
+                                            <p className="text-lg hidden md:block lg:hidden">
+                                                {shortenText(topic, 35)}
+                                            </p>
+
+                                            {/* Laptop */}
+                                            <p className="text-lg hidden lg:block xl:hidden">
+                                                {shortenText(topic, 30)}
+                                            </p>
+
+                                            {/* Large Desktop */}
+                                            <p className="text-lg hidden xl:block">
+                                                {shortenText(topic, 50)}
+                                            </p>
+
                                         </div>
                                     </div>
                                 </Link>
