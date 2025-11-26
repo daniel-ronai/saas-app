@@ -2,12 +2,16 @@ import CompanionCard from "@/components/CompanionCard";
 import CompanionsList from "@/components/CompanionsList";
 import CTA from "@/components/CTA";
 import {recentSessions} from "@/constants";
-import {getAllCompanions, getRecentSessions} from "@/lib/actions/companion.actions";
+import {getAllCompanions, getRecentSessions, isBookMarked} from "@/lib/actions/companion.actions";
 import {getSubjectColor} from "@/lib/utils";
+import {auth} from "@clerk/nextjs/server";
 
 const Page = async () => {
     const companions = await getAllCompanions({ limit: 3 });
     const recentSessionsCompanions = await getRecentSessions(10);
+    const { userId } = await auth();
+
+    const user = '*';
 
     return (
         <main>
@@ -19,6 +23,7 @@ const Page = async () => {
                         key={companion.id}
                         {...companion}
                         color={getSubjectColor(companion.subject)}
+                        bookmarked={isBookMarked(companion.id, user)}
                     />
                 ))}
 

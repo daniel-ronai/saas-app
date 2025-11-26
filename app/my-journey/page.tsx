@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/accordion"
 import {auth, clerkClient, currentUser} from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
-import {getUserCompanions, getUserSessions} from "@/lib/actions/companion.actions";
+import {getBookMarkedCompanions, getUserCompanions, getUserSessions} from "@/lib/actions/companion.actions";
 import Image from "next/image";
 import CompanionsList from "@/components/CompanionsList";
 import {recentSessions} from "@/constants";
@@ -19,6 +19,7 @@ const Profile = async() => {
 
     const companions = await getUserCompanions(user.id);
     const sessionHistory = await getUserSessions(user.id);
+    const bookMarks = await getBookMarkedCompanions(user.id);
 
     return(
         <main className="min-lg:w-3/4">
@@ -66,6 +67,15 @@ const Profile = async() => {
                         <CompanionsList
                             title="Recent Sessions"
                             companions={sessionHistory}
+                        />
+                    </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="bookmarks">
+                    <AccordionTrigger className="text-2xl font-bold">Bookmarked Companions {`(${bookMarks.length})`}</AccordionTrigger>
+                    <AccordionContent>
+                        <CompanionsList
+                            title="My Bookmarks"
+                            companions={bookMarks}
                         />
                     </AccordionContent>
                 </AccordionItem>
