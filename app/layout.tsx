@@ -10,6 +10,7 @@ import {
   SignedOut,
   UserButton,
 } from "@clerk/nextjs";
+import Footer from "@/components/Footer";
 
 const bricolage = Bricolage_Grotesque({
   variable: "--font-bricolage",
@@ -28,11 +29,12 @@ export default function RootLayout({
 }>) {
   return (
       <html lang="en">
-        <body className={`${bricolage.variable} antialiased`}>
+        <body className={`${bricolage.variable} antialiased p-10`}>
             <ClerkProvider appearance={{variables: {colorPrimary: '#fe5933'}}}>
                 <Navbar />
                 {children}
             </ClerkProvider>
+        <Footer />
         </body>
       </html>
   );
