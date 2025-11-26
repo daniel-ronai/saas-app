@@ -6,6 +6,8 @@ import {getAllCompanions, getRecentSessions, isBookMarked} from "@/lib/actions/c
 import {getSubjectColor} from "@/lib/utils";
 import {auth} from "@clerk/nextjs/server";
 
+export const dynamic = "force-dynamic";
+
 const Page = async () => {
     const companions = await getAllCompanions({ limit: 3 });
     const recentSessionsCompanions = await getRecentSessions(10);
